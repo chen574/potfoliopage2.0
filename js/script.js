@@ -93,3 +93,61 @@ arrowLeft.addEventListener('click', () => {
 
     activePortfolio();
 });
+
+// 获取元素
+const aboutBoxes = document.querySelectorAll('.aboutme-box');
+const aboutDetails = document.querySelectorAll('.about-detail');
+const backBtns = document.querySelectorAll('.back-btn');
+const barsBoxes = document.querySelectorAll('.bars-box');
+const header = document.querySelector('header');
+const homeSection = document.querySelector('.home');
+const aboutmeSection = document.querySelector('.aboutme'); // 新增：About Me 部分
+
+// 点击 About Me 卡片
+aboutBoxes.forEach((box, index) => {
+    box.addEventListener('click', () => {
+        // 1. 隐藏当前内容（播放滑出动画）
+        header.classList.remove('active');
+        homeSection.classList.remove('active');
+        aboutmeSection.classList.remove('active'); // 隐藏 About Me 部分
+        
+        // 2. 显示全局 bars-box 动画
+        const globalBarsBox = document.querySelector('.bars-box:not(.about-detail .bars-box)');
+        globalBarsBox.classList.remove('active');
+        
+        setTimeout(() => {
+            globalBarsBox.classList.add('active');
+        }, 10);
+
+        // 3. 延迟后显示详情页（播放滑入动画）
+        setTimeout(() => {
+            aboutDetails[index].classList.add('active');
+        }, 500);
+    });
+});
+
+// 点击返回按钮
+backBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // 1. 隐藏详情页
+        aboutDetails.forEach(detail => {
+            detail.classList.remove('active');
+        });
+
+        // 2. 显示全局 bars-box 动画
+        const globalBarsBox = document.querySelector('.bars-box:not(.about-detail .bars-box)');
+        globalBarsBox.classList.remove('active');
+        
+        setTimeout(() => {
+            globalBarsBox.classList.add('active');
+        }, 10);
+
+        // 3. 延迟后显示 About Me 部分（不是首页！）
+        setTimeout(() => {
+            header.classList.add('active');
+            aboutmeSection.classList.add('active'); // 显示 About Me 部分
+        }, 500);
+    });
+});
